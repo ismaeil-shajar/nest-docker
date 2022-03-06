@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: devops
-        image: ismaeilshajar/devops-test-ismaeil
+        image: ismaeilshajar/devops-test-ismaeil:db
         imagePullPolicy: IfNotPresent
         env:
           - name: DB_HOST

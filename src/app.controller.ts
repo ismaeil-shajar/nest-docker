@@ -10,10 +10,7 @@ export class AppController {
 
   @Get()
   async getHello(){
-
    let out= await this.appService.findOne(1);
-
-   console.log(out);
-    return {"hostName":os.hostname(),"success":true};
+    return {"hits":out.hits,"hostName":os.hostname(),"success":true};
   }
 }
