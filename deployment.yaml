@@ -16,8 +16,11 @@ spec:
     spec:
       containers:
       - name: devops
-        image: devops:test
+        image: ismaeilshajar/devops-test-ismaeil
         imagePullPolicy: IfNotPresent
+        env:
+          - name: DB_HOST
+            value: mysql-db
         resources:
           limits:
             memory: "512Mi"
@@ -48,7 +51,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  # ingressClassName: alb
+  # ingressClassName: nginx
   rules:
     - http:
        paths:

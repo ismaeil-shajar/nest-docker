@@ -1,21 +1,28 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Catn, CatSchema } from './cat.schema';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Hits } from './hits';
 
 @Module({
-  imports: [ConfigModule.forRoot()
-  //   MongooseModule.forRootAsync({
-  //     useFactory: () => ({
-  //       uri: 'mongodb://shajar:roottoor@3.239.78.16:27017/test-Dn',
-  //       useNewUrlParser: true, 
-  //       useUnifiedTopology:true,
-  //       directConnection: true
-  //     }),
-  //   }),
-  //   MongooseModule.forFeature([{ name: Catn.name, schema: CatSchema }])
+  imports: [ConfigModule.forRoot( {isGlobal: true}),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('DB_HOST')||'localhost',
+        port: 3306,
+        username: 'ismaeil',
+        password: 'root',
+        database: 'db_example',
+        entities: [],
+        synchronize: true,
+        autoLoadEntities: true,
+      }),
+      inject: [ConfigService],
+    })
+    ,TypeOrmModule.forFeature([Hits])
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -9,7 +9,11 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(){
+  async getHello(){
+
+   let out= await this.appService.findOne(1);
+
+   console.log(out);
     return {"hostName":os.hostname(),"success":true};
   }
 }

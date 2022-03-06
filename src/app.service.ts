@@ -1,24 +1,29 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Catn, CatDocument } from './cat.schema';
-import { CreateCatDto } from './create-cat.dto';
-
+import {  Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Hits } from './hits';
+import { Repository } from 'typeorm';
 @Injectable()
 export class AppService {
-  // constructor(
-  //   @InjectModel(Catn.name)
-  //   private readonly catModel: Model<CatDocument>,
-  // ) {}
+  constructor(
+    @InjectRepository(Hits)
+    private usersRepository: Repository<Hits>,
+  ) {}
 
-
-  // async create(createCatDto: CreateCatDto): Promise<Catn> {
-  //   const createdCat = await this.catModel.create(createCatDto);
-  //   return createdCat;
-  // }
-
-  // async findAll(): Promise<Catn[]> {
-  //   return this.catModel.find().exec();
-  // }
-
+ async findOne(id: number) {
+    let result= await this.usersRepository.findOne(id);
+    if(!result){
+      await this.create();
+      result=await this.findOne(1);
+     }
+    result.lasthits=result.hits
+    result.hits+=1
+    this.usersRepository.save(result);
+    return result;
+  }
+  
+  create(): Promise<Hits> {
+    
+    return this.usersRepository.save({id:1,hits:0,lasthits:0});
+  }
+  
 }
