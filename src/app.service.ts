@@ -25,5 +25,9 @@ export class AppService {
     
     return this.usersRepository.save({id:1,hits:0,lasthits:0});
   }
+  reset() {
+    
+    return this.usersRepository.update({id:1},{id:1,hits:0,lasthits:0});
+  }
   
 }

@@ -13,4 +13,15 @@ export class AppController {
    let out= await this.appService.findOne(1);
     return {"hits":out.hits,"hostName":os.hostname(),"success":true};
   }
+  @Get("rest")
+  async getReset(){
+   let out= await this.appService.reset();
+    return "done";
+  }
+  
+  @Get("liveness")
+  async getLive(){
+    return "Done";
+  }
+
 }
