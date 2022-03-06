@@ -33,7 +33,7 @@ jobs:
         context: ./
         # Note: tags has to be all lower-case
         tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/devops-test-ismaeil:latest 
+          ${{ secrets.DOCKERHUB_USERNAME }}/devops-test-ismaeil:db 
         # build on feature branches, push only on main branch
         push: ${{ github.ref == 'refs/heads/main' }}
     - name: Image digest
